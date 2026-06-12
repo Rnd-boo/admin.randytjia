@@ -42,7 +42,7 @@ const Login = () => {
                     {...field}
                     id={field.name}
                     aria-invalid={fieldState.invalid}
-                    placeholder="Login button not working on mobile"
+                    placeholder="bukan John Doe"
                     autoComplete="off"
                   />
 

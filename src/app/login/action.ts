@@ -6,7 +6,7 @@ import { signIn } from "next-auth/react";
 import z from "zod";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const loginSchema = z.object({
   username: z.string().min(2, "Please input your username"),
@@ -17,6 +17,9 @@ const useLogin = () => {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const searchParams = useSearchParams();
+
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   const { control, handleSubmit, reset } = useForm({
     resolver: zodResolver(loginSchema),
@@ -30,6 +33,7 @@ const useLogin = () => {
     const result = await signIn("credentials", {
       ...payload,
       redirect: false,
+      callbackUrl,
     });
     if (result?.error && result?.status === 401) {
       throw new Error("Login Failed");

@@ -1,17 +1,18 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
+import environment from "./configs/environment";
 import { JWTExtended } from "./types/auth";
 
 export async function middleware(request: NextRequest) {
   const token: JWTExtended | null = await getToken({
     req: request,
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: environment.AUTH_SECRET,
   });
 
   const { pathname } = request.nextUrl;
 
-  if (pathname === "/login" || pathname === "/register") {
+  if (pathname === "/login") {
     if (token) {
       return NextResponse.redirect(new URL("/", request.url));
     }
@@ -20,7 +21,7 @@ export async function middleware(request: NextRequest) {
   if (pathname.startsWith("/")) {
     if (!token) {
       const url = new URL("/login", request.url);
-
+      url.searchParams.set("callbackUrl", encodeURI(request.url));
       return NextResponse.redirect(url);
     }
 
@@ -31,5 +32,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/books/:path*", "/dashboard/:path*"],
+  matcher: ["/", "/login", "/books/:path*", "/dashboard/:path*"],
 };

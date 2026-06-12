@@ -20,7 +20,7 @@ import { signOut } from "next-auth/react";
 const SIDEBAR_MENULIST = [
   {
     title: "Dashboard",
-    url: "/",
+    url: "/dashboard",
     icon: LayoutDashboard,
   },
   {

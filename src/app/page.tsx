@@ -12,8 +12,8 @@ export default function Home() {
   }
   return (
     <div className="bg-muted flex justify-center space-y-4 items-center h-screen flex-col">
-      <h1 className="text-4xl font-semibold">Welcome {session?.user?.name}</h1>
-      <Link href="/books">
+      <h1 className="text-4xl font-semibold">U are not intruder?</h1>
+      <Link href="/dashboard">
         <Button className="bg-teal-500 text-white hover:bg-teal-600">
           Access Dashboard
         </Button>
