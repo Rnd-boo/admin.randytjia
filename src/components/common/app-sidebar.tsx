@@ -16,6 +16,7 @@ import {
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { Album, LayoutDashboard, SquareMenu } from "lucide-react";
+import { signOut } from "next-auth/react";
 const SIDEBAR_MENULIST = [
   {
     title: "Dashboard",
@@ -79,7 +80,7 @@ export default function AppSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton>
+            <SidebarMenuButton onClick={() => signOut()}>
               <LogOut /> Logout
             </SidebarMenuButton>
           </SidebarMenuItem>
