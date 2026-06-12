@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/input-group";
 import { Button } from "@/components/ui/button";
 import { Controller } from "react-hook-form";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 
 const Login = () => {
   const {
@@ -21,51 +22,64 @@ const Login = () => {
     handleSubmit,
     handleLogin,
     isPendingLogin,
-    errors,
   } = useLogin();
   return (
     <div className="flex w-full my-auto justify-center gap-10 lg:flex-row lg:gap-20">
       <Card>
         <CardContent>
-          <h2 className="text-2xl font-bold text-danger-500">Login</h2>
-          <p className="mb-4 mt-2 text-small">Randytjia?</p>
-          {errors.root && (
-            <p className="mb-2 font-medium text-danger">
-              {errors?.root?.message}
-            </p>
-          )}
+          <h2 className="text-2xl font-bold text-danger-500 mb-8">Login</h2>
           <form
-            className={cn(
-              "flex w-80 flex-col",
-              Object.keys(errors).length > 0 ? "gap-2" : "gap-4",
-            )}
+            className={cn("flex w-80 flex-col gap-2")}
             onSubmit={handleSubmit(handleLogin)}
           >
             <Controller
               name="username"
               control={control}
-              render={({ field }) => (
-                <Input {...field} type="text" autoComplete="off" />
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel htmlFor={field.name}>Username</FieldLabel>
+                  <Input
+                    {...field}
+                    id={field.name}
+                    aria-invalid={fieldState.invalid}
+                    placeholder="Login button not working on mobile"
+                    autoComplete="off"
+                  />
+
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
               )}
             />
             <Controller
               name="password"
               control={control}
-              render={({ field }) => (
-                <InputGroup>
-                  <InputGroupInput
-                    {...field}
-                    placeholder="***"
-                    type="password"
-                  />
-                  <InputGroupAddon onClick={toggleVisibility}>
-                    {isVisible ? (
-                      <Eye className="pointer-events-none text-xl text-default-400" />
-                    ) : (
-                      <EyeClosed className="pointer-events-none text-xl text-default-400" />
-                    )}
-                  </InputGroupAddon>
-                </InputGroup>
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel htmlFor={field.name}>Password</FieldLabel>
+                  <InputGroup>
+                    <InputGroupInput
+                      {...field}
+                      placeholder="***"
+                      aria-invalid={fieldState.invalid}
+                      type={isVisible ? "text" : "password"}
+                    />
+                    <InputGroupAddon
+                      onClick={toggleVisibility}
+                      align="inline-end"
+                    >
+                      {isVisible ? (
+                        <Eye className="pointer-events-none text-xl text-default-400" />
+                      ) : (
+                        <EyeClosed className="pointer-events-none text-xl text-default-400" />
+                      )}
+                    </InputGroupAddon>
+                  </InputGroup>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
               )}
             />
             <Button color="danger" size="lg" type="submit">

@@ -18,12 +18,7 @@ const useLogin = () => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
+  const { control, handleSubmit, reset } = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       username: "",
@@ -62,7 +57,6 @@ const useLogin = () => {
     handleSubmit,
     handleLogin,
     isPendingLogin,
-    errors,
   };
 };
 
