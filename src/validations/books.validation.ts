@@ -3,7 +3,7 @@ import z from "zod";
 export const bookSchema = z.object({
   image: z.string(),
   name: z.string(),
-  status: z.boolean(),
+  status: z.string(),
   description: z.string(),
   author: z.string(),
   subject: z.string(),
@@ -13,7 +13,7 @@ export const bookSchema = z.object({
 
 export const bookFormSchema = z.object({
   name: z.string().min(1, "Book Name is required"),
-  status: z.boolean(),
+  status: z.string(),
   image: z.string().min(1, "Image URL is required"),
   description: z.string().optional(),
   author: z.string().min(1, "Author is required"),

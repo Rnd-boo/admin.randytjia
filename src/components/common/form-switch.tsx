@@ -1,5 +1,5 @@
 import { Controller, FieldValues, Path, UseFormReturn } from "react-hook-form";
-import { Field, FieldError, FieldLabel } from "../ui/field";
+import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
 import { Switch } from "../ui/switch";
 
 export default function FormSwitch<T extends FieldValues>({
@@ -26,8 +26,10 @@ export default function FormSwitch<T extends FieldValues>({
       name={name}
       control={form.control}
       render={({ field, fieldState }) => (
-        <Field data-invalid={fieldState.invalid}>
-          <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
+        <Field data-invalid={fieldState.invalid} orientation="horizontal">
+          <FieldContent>
+            <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
+          </FieldContent>
           <Switch id={field.name} />
           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
         </Field>

@@ -8,10 +8,11 @@ import { ArrowDown, ArrowUp, Pencil, Trash2 } from "lucide-react";
 import DropdownAction from "@/components/common/dropdown-action";
 import { useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export default function Books() {
   const { dataBooks, isLoadingBooks, refetchBooks, totalData } = useBooks();
-
+  const pathname = usePathname();
   const [selectedAction, setSelectedAction] = useState<{
     data: Book;
     type: "detail" | "update" | "delete";
@@ -176,6 +177,7 @@ export default function Books() {
 
   return (
     <DataTable
+      pathname={pathname}
       isLoading={isLoadingBooks}
       data={dataBooks || []}
       columns={columns}

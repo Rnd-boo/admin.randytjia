@@ -58,6 +58,7 @@ export default function FormInput<T extends FieldValues>({
               placeholder={placeholder}
               autoComplete="off"
               type={type}
+              className={className}
             />
           )}
 
