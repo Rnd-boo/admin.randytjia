@@ -9,28 +9,30 @@ export async function middleware(request: NextRequest) {
     req: request,
     secret: environment.AUTH_SECRET,
   });
+  const pathname = request.nextUrl.pathname;
 
-  const { pathname } = request.nextUrl;
+  const authPages = ["/login"];
+  const isAuthPage = authPages.includes(pathname);
 
-  if (pathname === "/login") {
+  if (isAuthPage) {
     if (token) {
-      return NextResponse.redirect(new URL("/", request.url));
-    }
-  }
-
-  if (pathname.startsWith("/")) {
-    if (!token) {
-      const url = new URL("/login", request.url);
-      url.searchParams.set("callbackUrl", encodeURI(request.url));
-      return NextResponse.redirect(url);
-    }
-
-    if (pathname === "/") {
       return NextResponse.redirect(new URL("/dashboard", request.url));
     }
+
+    return NextResponse.next();
+  }
+
+  const protectedRoutes = ["/dashboard", "/books"];
+
+  const isProtected = protectedRoutes.some((route) =>
+    pathname.startsWith(route),
+  );
+
+  if (isProtected && !token) {
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 }
 
 export const config = {
-  matcher: ["/", "/login", "/books/:path*", "/dashboard/:path*"],
+  matcher: ["/dashboard/:path*", "/books/:path*", "/login"],
 };
