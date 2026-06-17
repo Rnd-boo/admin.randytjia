@@ -107,7 +107,7 @@ export function DataTable<TData extends { id: string | number }>({
           <TableHeader>
             <TableRow className="hover:!bg-muted/50 bg-muted/50 ">
               <TableCell colSpan={columns.length}>
-                <div className="flex justify-end w-full">
+                <div className="flex justify-end w-full gap-4">
                   {table.getAllColumns().filter((column) => column.getCanHide())
                     .length > 0 && (
                     <DropdownMenu>
@@ -141,6 +141,12 @@ export function DataTable<TData extends { id: string | number }>({
                     variant="outline"
                   >
                     <RefreshCcw />
+                  </Button>
+                  <Button
+                    onClick={() => router.push(`${pathname}/create`)}
+                    variant="outline"
+                  >
+                    Create
                   </Button>
                 </div>
               </TableCell>
