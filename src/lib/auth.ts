@@ -51,30 +51,4 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
-
-  callbacks: {
-    async jwt({
-      token,
-      user,
-    }: {
-      token: JWTExtended;
-      user: UserExtended | null;
-    }) {
-      if (user) {
-        token.user = user;
-      }
-      return token;
-    },
-    async session({
-      session,
-      token,
-    }: {
-      session: SessionExtended;
-      token: JWTExtended;
-    }) {
-      session.user = token.user;
-      session.accessToken = token.user?.accessToken;
-      return session;
-    },
-  },
 };

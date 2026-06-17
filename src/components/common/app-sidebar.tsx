@@ -14,7 +14,7 @@ import {
 } from "../ui/sidebar";
 
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Album, LayoutDashboard, SquareMenu } from "lucide-react";
 import { signOut } from "next-auth/react";
 const SIDEBAR_MENULIST = [
@@ -42,6 +42,7 @@ const SIDEBAR_MENULIST = [
 
 export default function AppSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -64,7 +65,7 @@ export default function AppSidebar() {
                       href={item.url}
                       className={cn("px-4 py-3 h-auto", {
                         "bg-teal-500 text-white hover:bg-teal-500 hover:text-white":
-                          pathname === item.url,
+                          pathname.startsWith(item.url),
                       })}
                     >
                       {item.icon && <item.icon />}
